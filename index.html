@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>USJ Filmes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    /* Dropdown abre no hover */
+    .hover-dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    /* Banner hero full screen */
+    .hero-banner {
+      background: url('colagem-de-fundo-de-filme.jpg') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .hero-content h1 {
+      font-weight: 900;
+      font-size: 3.5rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+    .hero-content p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+    }
+
+    /* Carrossel custom */
+    .carousel-item img {
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 576px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      .carousel-item img {
+        height: 250px;
+      }
+    }
+  
+    .carousel-wrapper {
+      position: relative;
+    }
+    .carousel {
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 10px 0;
+      overflow-x: auto;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE and Edge */
+    }
+    .carousel::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
+    .carousel img {
+      width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .carousel img:hover {
+      transform: scale(1.05);
+    }
+ .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.7); /* Fundo branco translúcido */
+  border: none;
+  color: black; /* Ícone em preto para contraste */
+  font-size: 2.2rem;
+  z-index: 1000;
+  padding: 5px 12px;
+  border-radius: 50px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* leve sombra */
+  transition: background 0.3s, transform 0.3s;
+}
+
+.carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.left {
+  left: 5px;
+}
+
+.carousel-btn.right {
+  right: 5px;
+}
+
+
+
+
+.filme-overlay-container {
+  position: relative;
+  display: inline-block;
+}
+
+.filme-overlay-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.filme-overlay-container:hover .filme-overlay-info {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.filme-overlay-info h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.filme-overlay-info p {
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.filme-overlay-info button {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+  </style>
+</head>
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "comedia/evidencias.jpg",
+        titulo: "Evidências do Amor",
+        sinopse: "Após ser deixado no altar por Laura (Sandy), Marco Antonio (Fábio Porchat) é forçado por uma canção a reviver, de forma literal, memórias dolorosas do passado."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$19,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "vidente.jpeg",
+        titulo: "Vidente por Acidente",
+        sinopse: "Ulisses, um arquiteto em crise aos 40 anos, toma um chá misterioso e acorda com o poder de descobrir a vocação das pessoas ao tocá-las, vivendo situações engraçadas e de autoconhecimento."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$13,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/o-ritual.jpg",
+        titulo: "O Ritual ",
+        sinopse: "Michael Kovak, seminarista cético, treina exorcismos no Vaticano e, ao enfrentar forças demoníacas, tem sua fé e crenças profundamente desafiadas."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/semente-do-mal.jpg",
+        titulo: "Semente do Mal ",
+        sinopse: "Durante as férias de Natal, crianças começam a agir de forma violenta e mortal contra seus próprios familiares. Isolados, os adultos lutam para sobreviver ao ataque dos pequenos assassinos."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/premonicao6.jpg",
+        titulo: "Premonição 6",
+        sinopse: "Stefanie, assombrada por pesadelos com a morte de sua família, volta para casa em busca de ajuda para quebrar um ciclo mortal, enquanto a Morte a persegue implacavelmente."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/primeira-profecia.jpg",
+        titulo: "A Primeira Profecia ",
+        sinopse: "Margaret é enviada a um convento em Roma e descobre uma conspiração para trazer o Anticristo, enfrentando o mal que surge."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/scream6.jpg",
+        titulo: "Scream ",
+        sinopse: "Em Woodsboro, Sidney Prescott enfrenta um serial killer mascarado, Ghostface, que aterroriza adolescentes, misturando terror, humor e suspense."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  // Garante que as funções de rolagem sejam associadas corretamente aos botões
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".carousel-btn.left").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const carouselId = btn.nextElementSibling.id;
+        document.getElementById(carouselId).scrollBy({ left: -220, behavior: 'smooth' });
+      });
+    });
+
+    document.querySelectorAll(".carousel-btn.right").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const carouselId = btn.previousElementSibling.id;
+        document.getElementById(carouselId).scrollBy({ left: 220, behavior: 'smooth' });
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/acompanhante-perfeita.jpg",
+        titulo: "Acompanhante Perfeita",
+        sinopse: "Iris, uma androide criada para ser a namorada perfeita, revela seu lado mortal durante um fim de semana com amigos, transformando o encontro em um thriller sangrento e tecnológico."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$13,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/a-hora-do-mal.jpg",
+        titulo: "A Hora do Mal",
+        sinopse: "Em uma cidade pequena, 17 crianças desaparecem misteriosamente às 2h17 da madrugada, restando apenas uma. Autoridades e famílias enfrentam um terror sobrenatural para descobrir a verdade."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/infestacao.jpg",
+        titulo: "Infestação",
+        sinopse: "Kaleb compra uma aranha exótica que escapa e se multiplica, causando um surto mortal em um prédio em quarentena, misturando horror claustrofóbico e crítica social."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "terror/juntos.png",
+        titulo: "Juntos",
+        sinopse: "Tim e Millie tentam recomeçar no interior, mas forças sobrenaturais e horrores físicos colocam seu amor à prova em meio ao medo e tensão emocional."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "romance/ricos.png",
+        titulo: "Ricos de Amor",
+        sinopse: "Teto, herdeiro milionário, finge ser humilde para conquistar Paula, uma médica independente, e acaba aprendendo sobre amor, privilégios e responsabilidade."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "romance/simon.jpg",
+        titulo: "Love, Simon",
+        sinopse: "Aos 17 anos, Simon Spier esconde que é gay, mas quando seu romance anônimo é ameaçado, ele embarca em uma jornada divertida e comovente para se assumir e se aceitar."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "romance/amor.jpg",
+        titulo: "O Amor Acontece",
+        sinopse: "Burke Ryan, escritor e viúvo, conhece Eloise durante o lançamento de seu livro em Seattle e, ao se envolver com ela, é forçado a enfrentar o luto que ainda o assombra."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "romance/antes.jpg",
+        titulo: "Como Eu Era Antes de Você",
+        sinopse: "Louisa, otimista e criativa, é contratada para cuidar de Will, um tetraplégico amargurado. A convivência transforma os dois, mas o amor que nasce entre eles enfrenta intensos desafios emocionais."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "romance/numero.jpg",
+        titulo: "Qual Seu Número?",
+        sinopse: "Recém-desempregada, Ally decide revisitar 19 ex-namorados após ler que muitas relações passadas atrapalham o amor, na esperança de reencontrar sua chance antes que seja tarde."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "romance/cidade.jpg",
+        titulo: "Cidades de Papel",
+        sinopse: "Quentin busca sua vizinha Margo após seu misterioso desaparecimento, seguindo pistas que ela deixou e descobrindo mais sobre si mesmo no processo."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "romance/crush.jpg",
+        titulo: "Crush: Amor Colorido",
+        sinopse: "Paige entra para o time de atletismo e, ao se aproximar de sua paixão Gabriella, percebe que seus sentimentos podem estar voltados para outra colega, confundindo seu coração."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "animação/carros.jpg",
+        titulo: "Carros",
+        sinopse: "Relâmpago McQueen, um carro de corrida arrogante, fica preso em Radiator Springs e aprende sobre amizade, humildade e o verdadeiro significado da vitória."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "animação/divertidamente.jpeg",
+        titulo: "Divertidamente 2",
+        sinopse: "Riley enfrenta a adolescência com a ajuda de suas emoções, que mostram a importância de entender os próprios sentimentos para amadurecer."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "animação/leo.jpg",
+        titulo: "Leo",
+        sinopse: "Leo, um leãozinho perdido da manada, aprende a confiar em si mesmo e nos amigos para reencontrar sua família."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "animação/encanto.jpeg",
+        titulo: "Encanto",
+        sinopse: "Mirabel, a única sem poderes em uma família mágica, parte para salvar a magia da casa e descobrir seu verdadeiro valor."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "animação/megamente.jpg",
+        titulo: "Megamente",
+        sinopse: "Após derrotar seu rival, Megamente cria um novo inimigo e descobre que ser herói ou vilão pode ser mais complicado do que parece."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "animação/soul.jpg",
+        titulo: "Soul",
+        sinopse: "Joe Gardner, um músico frustrado, vai parar no mundo das almas e aprende valiosas lições sobre propósito, paixão e o valor da vida."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "animação/zootopia.jpg",
+        titulo: "Zootopia",
+        sinopse: "A policial Judy Hopps e a raposa Nick Wilde investigam um mistério em Zootopia e enfrentam preconceitos para manter a paz entre os animais."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filmes = [
+      {
+        imagem: "comedia/irma.webp",
+        titulo: "Minha Irmã E Eu",
+        sinopse: "Quando a mãe de Mirian e Mirelly desaparece, as irmãs deixam de lado as diferenças e se unem para procurá-la numa viagem que pode mudar suas vidas."
+      }
+      // Adicione mais objetos aqui se quiser outros filmes com hover.
+    ];
+
+    filmes.forEach(filme => {
+      const imgs = document.querySelectorAll(`img[src="${filme.imagem}"]`);
+      imgs.forEach(img => {
+        const container = document.createElement("div");
+        container.classList.add("filme-overlay-container");
+
+        const overlay = document.createElement("div");
+        overlay.classList.add("filme-overlay-info");
+
+        const titulo = document.createElement("h5");
+        titulo.textContent = filme.titulo;
+
+        const sinopse = document.createElement("p");
+        sinopse.textContent = filme.sinopse;
+
+const botao = document.createElement("button");
+        botao.textContent = "🛒 R$12,90";
+        botao.onclick = () => window.location.href = "";
+
+        overlay.appendChild(titulo);
+        overlay.appendChild(sinopse);
+        overlay.appendChild(botao);
+
+        // Substituir a imagem original por container
+        const parent = img.parentNode;
+        parent.replaceChild(container, img);
+        container.appendChild(img);
+        container.appendChild(overlay);
+      });
+    });
+  });
+</script>
+
+
+
+
+<body>
+
+  <!-- Cabeçalho com imagem, logo e menu lateral -->
+  <header class="py-3 bg-dark">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Ícone de Menu (hambúrguer) -->
+      <button
+        class="btn btn-outline-light me-2"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#menuLateral"
+        aria-controls="menuLateral"
+        aria-label="Abrir menu lateral"
+      >
+        <i class="bi bi-list fs-3"></i>
+      </button>
+
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="index.html"><img src="logo.png" alt="USJ Filmes Logo" style="max-width: 100px; height: auto;" /></a>
+      </div>
+
+      <!-- Pesquisa -->
+      <form class="d-none d-md-flex flex-grow-1 mx-3" style="max-width: 600px;" role="search">
+        <input class="form-control me-2" type="search" placeholder="Buscar filmes..." aria-label="Buscar filmes" />
+        <button class="btn btn-light" type="submit" aria-label="Pesquisar"><i class="bi bi-search"></i></button>
+      </form>
+
+      <!-- Ícones Conta + Carrinho -->
+      <div class="d-flex gap-2">
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person"></i> Conta
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+            <li><a class="dropdown-item" href="cadastro.html"><i class="bi bi-person-plus"></i> Cadastro</a></li>
+          </ul>
+        </div>
+        <a href="carrinho.html" class="btn btn-outline-light" aria-label="Carrinho de compras"><i class="bi bi-cart"></i> Carrinho</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Offcanvas Menu (Menu Lateral) -->
+  <div
+    class="offcanvas offcanvas-start bg-dark text-white"
+    tabindex="-1"
+    id="menuLateral"
+    aria-labelledby="menuLateralLabel"
+  >
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="menuLateralLabel">Menu</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar menu"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Início</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="catalogo.html">Catálogo</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="genero.html">Gêneros</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="contato.html">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Seção Comédia -->
+  <section class="bg-black text-white py-3">
+    <div class="container">
+      <h5 class="mb-2">Comédia</h5>
+      <div class="carousel-wrapper position-relative">
+        <button class="carousel-btn left" onclick="scrollLeft('carouselComedia')" aria-label="Scroll carrossel Comédia para esquerda"><i class="bi bi-chevron-left"></i></button>
+        <div class="carousel d-flex overflow-auto" id="carouselComedia" tabindex="0" role="list">
+          <img src="comedia/irma.webp" alt="irma" role="listitem" />
+          <img src="comedia/evidencias.jpg" alt="evidencias" role="listitem" />
+          <img src="comedia/fim.png" alt="fim" role="listitem" />
+          <img src="comedia/prada.jpg" alt="prada" role="listitem" />
+          <img src="comedia/abestalhados.jpg" alt="abestalhados" role="listitem" />
+          <img src="comedia/volta.jpg" alt="volta" role="listitem" />
+          <img src="comedia/pacote.jpg" alt="pacote" role="listitem" />
+          <img src="comedia/millers.jpg" alt="millers" role="listitem" />
+          <img src="comedia/vidente.jpeg" alt="vidente" role="listitem" />
+        </div>
+        <button class="carousel-btn right" onclick="scrollRight('carouselComedia')" aria-label="Scroll carrossel Comédia para direita"><i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Terror -->
+  <section class="bg-black text-white py-3">
+    <div class="container">
+      <h5 class="mb-2">Terror</h5>
+      <div class="carousel-wrapper position-relative">
+        <button class="carousel-btn left" onclick="scrollLeft('carouselTerror')" aria-label="Scroll carrossel Terror para esquerda"><i class="bi bi-chevron-left"></i></button>
+        <div class="carousel d-flex overflow-auto" id="carouselTerror" tabindex="0" role="list">
+          <img src="terror/acompanhante-perfeita.jpg" alt="Acompanhante Perfeita" role="listitem" />
+          <img src="terror/a-hora-do-mal.jpg" alt="A Hora do Mal" role="listitem" />
+          <img src="terror/infestacao.jpg" alt="Infestação" role="listitem" />
+          <img src="terror/juntos.png" alt="Juntos" role="listitem" />
+          <img src="terror/o-ritual.jpg" alt="O Ritual" role="listitem" />
+          <img src="terror/premonicao6.jpg" alt="Premonição 6" role="listitem" />
+          <img src="terror/primeira-profecia.jpg" alt="A Primeira Profecia" role="listitem" />
+          <img src="terror/scream6.jpg" alt="Scream 6" role="listitem" />
+          <img src="terror/semente-do-mal.jpg" alt="A Semente do Mal" role="listitem" />
+        </div>
+        <button class="carousel-btn right" onclick="scrollRight('carouselTerror')" aria-label="Scroll carrossel Terror para direita"><i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Romance -->
+  <section class="bg-black text-white py-3">
+    <div class="container">
+      <h5 class="mb-2">Romance</h5>
+      <div class="carousel-wrapper position-relative">
+        <button class="carousel-btn left" onclick="scrollLeft('carouselRomance')" aria-label="Scroll carrossel Romance para esquerda"><i class="bi bi-chevron-left"></i></button>
+        <div class="carousel d-flex overflow-auto" id="carouselRomance" tabindex="0" role="list">
+          <img src="romance/ricos.png" alt="Ricos" role="listitem" />
+          <img src="romance/simon.jpg" alt="Simon" role="listitem" />
+          <img src="romance/amor.jpg" alt="Amor" role="listitem" />
+          <img src="romance/antes.jpg" alt="Antes" role="listitem" />
+          <img src="romance/numero.jpg" alt="Número" role="listitem" />
+          <img src="romance/cidade.jpg" alt="Cidade" role="listitem" />
+          <img src="romance/crush.jpg" alt="Crush" role="listitem" />
+        </div>
+        <button class="carousel-btn right" onclick="scrollRight('carouselRomance')" aria-label="Scroll carrossel Romance para direita"><i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+   <section class="bg-black text-white py-3">
+    <div class="container">
+      <h5 class="mb-2">Animação</h5>
+      <div class="carousel-wrapper position-relative">
+        <button class="carousel-btn left" onclick="scrollLeft('carouselAnimacao')" aria-label="Scroll carrossel Animacao para esquerda"><i class="bi bi-chevron-left"></i></button>
+        <div class="carousel d-flex overflow-auto" id="carouselAnimacao" tabindex="0" role="list">
+          <img src="animação/carros.jpg" alt="carros" role="listitem" />
+          <img src="animação/divertidamente.jpeg" alt="divertidamente" role="listitem" />
+          <img src="animação/encanto.jpeg" alt="encanto" role="listitem" />
+          <img src="animação/leo.jpg" alt="leo" role="listitem" />
+          <img src="animação/megamente.jpg" alt="megamente" role="listitem" />
+          <img src="animação/soul.jpg" alt="soul" role="listitem" />
+          <img src="animação/zootopia.jpg" alt="zootopia" role="listitem" />
+        </div>
+        <button class="carousel-btn right" onclick="scrollRight('carouselAnimacao')" aria-label="Scroll carrossel Animacao para direita"><i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+     <section class="bg-black text-white py-3">
+    <div class="container">
+      <h5 class="mb-2">Ação</h5>
+      <div class="carousel-wrapper position-relative">
+        <button class="carousel-btn left" onclick="scrollLeft('carouselAcao')" aria-label="Scroll carrossel Acao para acao"><i class="bi bi-chevron-left"></i></button>
+        <div class="carousel d-flex overflow-auto" id="carouselAcao" tabindex="0" role="list">
+          <img src="ação/atlas.jpg" alt="atlas" role="listitem" />
+          <img src="ação/badboys.webp" alt="badboys" role="listitem" />
+          <img src="ação/furiosa.jpg" alt="furiosa" role="listitem" />
+          <img src="ação/guerra.jpg" alt="guerra" role="listitem" />
+          <img src="ação/john.jpg" alt="john" role="listitem" />
+          <img src="ação/resgate.jpg" alt="resgate" role="listitem" />
+          <img src="ação/vingadores.jpg" alt="vingadores" role="listitem" />
+        </div>
+        <button class="carousel-btn right" onclick="scrollRight('carouselAcao')" aria-label="Scroll carrossel Acao para direita"><i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="bg-dark text-white pt-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <!-- Sobre Nós -->
+        <div class="col-md-4">
+          <h5>Sobre Nós</h5>
+          <p>A USJ Filmes é uma locadora online que oferece filmes clássicos e lançamentos para todos os gostos. Nosso objetivo é proporcionar entretenimento com qualidade e praticidade.</p>
+        </div>
+
+        <!-- Contato -->
+        <div class="col-md-4">
+          <h5>Contato</h5>
+          <ul class="list-unstyled">
+            <li>Email: contato@usjfilmes.com</li>
+            <li>Telefone: (11) 1234-5678</li>
+            <li>Endereço: Rua dos Filmes, 123, São Paulo - SP</li>
+          </ul>
+        </div>
+
+        <!-- Redes Sociais -->
+        <div class="col-md-4">
+          <h5>Siga-nos</h5>
+          <a href="#" class="text-white me-3" aria-label="Facebook"><i class="bi bi-facebook fs-4"></i></a>
+          <a href="#" class="text-white me-3" aria-label="Twitter"><i class="bi bi-twitter fs-4"></i></a>
+          <a href="#" class="text-white" aria-label="Instagram"><i class="bi bi-instagram fs-4"></i></a>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        &copy; 2025 USJ Filmes. Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function scrollLeft(carouselId) {
+      const carousel = document.getElementById(carouselId);
+      carousel.scrollBy({ left: -220, behavior: 'smooth' });
+    }
+
+    function scrollRight(carouselId) {
+      const carousel = document.getElementById(carouselId);
+      carousel.scrollBy({ left: 220, behavior: 'smooth' });
+    }
+  </script>
+  <script>
+function atualizaConta() {
+  const login = localStorage.getItem('usuarioLogado');
+  const btnConta = document.querySelector('.dropdown > button');
+  const ul = document.querySelector('.dropdown-menu');
+  if (!login) return;
+  const userData = localStorage.getItem('cadastro_' + login);
+  if (!userData) return;
+  const user = JSON.parse(userData);
+  const nome = user?.nome?.split(' ')[0] || login;
+  btnConta.innerHTML = 'Olá, ' + nome;
+  ul.innerHTML = '<li><a class="dropdown-item" href="#" id="sair"><i class="bi bi-box-arrow-right"></i> Sair</a></li>';
+  document.getElementById('sair').addEventListener('click', () => {
+    localStorage.removeItem('usuarioLogado');
+    window.location.reload();
+  });
+}
+window.addEventListener('DOMContentLoaded', atualizaConta);
+</script>
+<script src="carrinho-interativo.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form[role="search"]');
+    const input = form.querySelector('input[type="search"]');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const termo = input.value.trim().toLowerCase();
+
+      if (termo === 'semente do mal') {
+        window.location.href = 'semente.html';
+      } else {
+        alert('Filme não encontrado.');
+      }
+    });
+  });
+</script>
+
+
+
+</body>
+</html>

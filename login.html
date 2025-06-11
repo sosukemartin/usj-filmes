@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>USJ Filmes - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(45deg, #0a0a0a, #151515);
+      color: white;
+      height: 100vh;
+    }
+
+    main {
+      max-width: 480px;
+      margin: 10vh auto 5vh;
+      padding: 20px;
+      border-radius: 12px;
+      background: #1a1a1a;
+    }
+
+    label {
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 0 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <header class="py-3 bg-dark">
+    <div class="container d-flex align-items-center justify-content-between">
+      <button class="btn btn-outline-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral" aria-controls="menuLateral">
+        <i class="bi bi-list fs-3"></i>
+      </button>
+      <div class="flex-shrink-0">
+        <img src="logo.png" alt="USJ Filmes Logo" style="max-width: 100px; height: auto;" />
+      </div>
+      <form class="d-none d-md-flex flex-grow-1 mx-3" style="max-width: 600px;">
+        <input class="form-control me-2" type="search" placeholder="Buscar filmes..." />
+        <button class="btn btn-light" type="submit"><i class="bi bi-search"></i></button>
+      </form>
+      <div class="d-flex gap-2">
+        <div class="dropdown">
+          <button id="menuConta" class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Conta
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+            <li><a class="dropdown-item" href="login.html">Login</a></li>
+            <li><a class="dropdown-item" href="cadastro.html">Cadastro</a></li>
+          </ul>
+        </div>
+        <a href="carrinho.html" class="btn btn-outline-light"><i class="bi bi-cart"></i> Carrinho</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu lateral -->
+  <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="menuLateral" aria-labelledby="menuLateralLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="menuLateralLabel">Menu</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link text-white" href="#">Início</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="catalogo.html">Catálogo</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="genero.html">Gêneros</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="contato.html">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Tela de Login -->
+  <main>
+    <h2 class="mb-3">Login</h2>
+    <form id="formLogin" novalidate>
+      <div class="mb-3">
+        <label for="login" class="form-label">Login:</label>
+        <input type="text" class="form-control" id="login" placeholder="Digite seu login" required />
+        <div class="invalid-feedback">Login obrigatório.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha:</label>
+        <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" required />
+        <div class="invalid-feedback">Senha obrigatória.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Entrar</button>
+      <p class="text-center mt-3">
+        <a href="cadastro.html" class="text-warning">Cadastrar Novo Usuário</a>
+      </p>
+    </form>
+  </main>
+
+  <!-- Rodapé -->
+  <div style="background-color: #1a2a40;">
+    <footer class="bg-dark text-white pt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Sobre Nós</h5>
+            <p>A USJ Filmes é uma locadora online que oferece filmes clássicos e lançamentos para todos os gostos...</p>
+          </div>
+          <div class="col-md-4">
+            <h5>Contato</h5>
+            <ul class="list-unstyled">
+              <li>Email: contato@usjfilmes.com</li>
+              <li>Telefone: (21) 99999-9999</li>
+              <li>Endereço: Av. de Santa Cruz, 556 - Realengo, Rio de Janeiro - RJ</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Redes Sociais</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white text-decoration-none">Facebook</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Instagram</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Twitter</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <small>© 2025 USJ Filmes. Todos os direitos reservados.</small>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const formLogin = document.getElementById('formLogin');
+
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const login = formLogin.login.value.trim();
+      const senha = formLogin.senha.value.trim();
+
+      let valido = true;
+
+      if (!login) {
+        formLogin.login.classList.add('is-invalid');
+        valido = false;
+      } else {
+        formLogin.login.classList.remove('is-invalid');
+      }
+
+      if (!senha) {
+        formLogin.senha.classList.add('is-invalid');
+        valido = false;
+      } else {
+        formLogin.senha.classList.remove('is-invalid');
+      }
+
+      if (!valido) return;
+
+      const dados = localStorage.getItem('cadastro_' + login);
+      if (!dados) {
+        alert('Usuário não cadastrado.');
+        return;
+      }
+
+      const usuario = JSON.parse(dados);
+      if (usuario.senha !== senha) {
+        alert('Senha incorreta.');
+        return;
+      }
+
+      localStorage.setItem('usuarioLogado', login);
+      alert(`Bem-vindo, ${usuario.nome.split(' ')[0]}!`);
+      window.location.href = 'index.html';
+    });
+
+    function atualizarMenuConta() {
+      const menuConta = document.getElementById('menuConta');
+      const dropdown = menuConta?.parentElement?.querySelector('.dropdown-menu');
+
+      const login = localStorage.getItem('usuarioLogado');
+      if (login) {
+        const dados = localStorage.getItem('cadastro_' + login);
+        if (dados) {
+          const usuario = JSON.parse(dados);
+          menuConta.innerHTML = `<i class="bi bi-person"></i> Olá, ${usuario.nome.split(' ')[0]}`;
+          dropdown.innerHTML = `<li><a class="dropdown-item text-danger" href="#" onclick="sair()">Sair</a></li>`;
+        }
+      }
+    }
+
+    function sair() {
+      localStorage.removeItem('usuarioLogado');
+      location.reload();
+    }
+
+    document.addEventListener('DOMContentLoaded', atualizarMenuConta);
+  </script>
+</body>
+</html>

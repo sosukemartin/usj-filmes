@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>USJ Filmes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    /* Dropdown abre no hover */
+    .hover-dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    /* Banner hero full screen */
+    .hero-banner {
+      background: url('colagem-de-fundo-de-filme.jpg') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .hero-content h1 {
+      font-weight: 900;
+      font-size: 3.5rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+    .hero-content p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+    }
+
+    /* Carrossel custom */
+    .carousel-item img {
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 576px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      .carousel-item img {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabeçalho com imagem, logo e menu lateral -->
+  <header class="py-3 bg-dark">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Ícone de Menu (hambúrguer) -->
+      <button
+        class="btn btn-outline-light me-2"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#menuLateral"
+        aria-controls="menuLateral"
+      >
+        <i class="bi bi-list fs-3"></i>
+      </button>
+
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <img src="logo.png" alt="USJ Filmes Logo" style="max-width: 100px; height: auto;" />
+      </div>
+
+      <!-- Pesquisa -->
+      <form class="d-none d-md-flex flex-grow-1 mx-3" style="max-width: 600px;">
+        <input class="form-control me-2" type="search" placeholder="Buscar filmes..." />
+        <button class="btn btn-light" type="submit"><i class="bi bi-search"></i></button>
+      </form>
+
+      <!-- Ícones Conta + Carrinho -->
+      <div class="d-flex gap-2">
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person"></i> Conta
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+            <li><a class="dropdown-item" href="cadastro.html"><i class="bi bi-person-plus"></i> Cadastro</a></li>
+          </ul>
+        </div>
+        <a href="carrinho.html" class="btn btn-outline-light"><i class="bi bi-cart"></i> Carrinho</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Offcanvas Menu (Menu Lateral) -->
+  <div
+    class="offcanvas offcanvas-start bg-dark text-white"
+    tabindex="-1"
+    id="menuLateral"
+    aria-labelledby="menuLateralLabel"
+  >
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="menuLateralLabel">Menu</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Início</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="catalogo.html">Catálogo</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="genero.html">Gêneros</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="contato.html">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  
+<!-- Seção do Filme Semente do Mal -->
+<section class="py-5" style="background-color: #000; color: #fff;">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2>🎥 Semente do Mal (2008)</h2>
+      <h5><strong>Direção:</strong> Tom Shankland | <strong>Gênero:</strong> Terror, Suspense</h5>
+    </div>
+
+    <div class="row align-items-center mb-5">
+      <!-- Poster -->
+      <div class="col-md-5 text-center mb-4 mb-md-0">
+        <img src="terror/semente-do-mal.jpg" alt="Poster de Semente do Mal" class="img-fluid rounded" style="max-width: 100%; box-shadow: 0 4px 12px rgba(255,255,255,0.2);">
+      </div>
+
+      <!-- Sinopse e Botão -->
+      <div class="col-md-7">
+        <p style="text-align: justify;">
+          Durante as férias de fim de ano, uma família se reúne em uma casa de campo isolada para celebrar o Natal. 
+          O que deveria ser um período de alegria rapidamente se transforma em pesadelo quando as crianças começam 
+          a agir de forma estranha e violenta. Aos poucos, os adultos percebem que seus próprios filhos se tornaram 
+          uma ameaça mortal, sem explicação aparente.
+        </p>
+        <p style="text-align: justify;">
+          Presos em meio à neve e ao isolamento, os membros da família precisam lutar para sobreviver — enquanto 
+          enfrentam o horror inimaginável de serem perseguidos por aqueles que mais amam.
+        </p>
+
+        <!-- Botão de compra -->
+        <a href="carrinho.html" class="btn btn-danger btn-lg mt-3">
+          🛒 R$12,90
+        </a>
+      </div>
+    </div>
+
+    <!-- Trailer do filme -->
+    <div class="ratio ratio-16x9" style="max-width: 900px; margin: 0 auto;">
+      <iframe src="https://www.youtube.com/watch?v=0XqYv-o9esw" title="Trailer Semente do Mal" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Rodapé -->
+  <footer class="bg-dark text-white pt-4 mt-0">
+  <div class="container">
+    <div class="row">
+      <!-- Sobre Nós -->
+      <div class="col-md-4">
+        <h5>Sobre Nós</h5>
+        <p>A USJ Filmes é uma locadora online que oferece filmes clássicos e lançamentos para todos os gostos. Nosso objetivo é proporcionar entretenimento com qualidade e praticidade.</p>
+      </div>
+
+      <!-- Contato -->
+      <div class="col-md-4">
+        <h5>Contato</h5>
+        <ul class="list-unstyled">
+          <li>Email: contato@usjfilmes.com</li>
+          <li>Telefone: (21) 99999-9999</li>
+          <li>Endereço:Av. de Santa Cruz, 556 - Realengo, Rio de Janeiro - RJ, 21710-232</li>
+        </ul>
+      </div>
+
+      <!-- Links rápidos ou redes sociais -->
+      <div class="col-md-4">
+        <h5>Redes Sociais</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Facebook</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Instagram</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="text-center mt-3">
+      <small>© 2025 USJ Filmes. Todos os direitos reservados.</small>
+    </div>
+  </div>
+</footer>
+    <script>
+  function atualizaConta() {
+    const login = localStorage.getItem('usuarioLogado');
+    const btnConta = document.querySelector('.dropdown > button');
+    const ul = document.querySelector('.dropdown-menu');
+    if (!login) return;
+    const userData = localStorage.getItem('cadastro_' + login);
+    if (!userData) return;
+    const user = JSON.parse(userData);
+    const nome = user?.nome?.split(' ')[0] || login;
+    btnConta.innerHTML = 'Olá, ' + nome;
+    ul.innerHTML = '<li><a class="dropdown-item" href="#" id="sair"><i class="bi bi-box-arrow-right"></i> Sair</a></li>';
+    document.getElementById('sair').addEventListener('click', () => {
+      localStorage.removeItem('usuarioLogado');
+      window.location.reload();
+    });
+  }
+  window.addEventListener('DOMContentLoaded', atualizaConta);
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carrossel de Filmes</title>
+
+  <!-- Bootstrap Icons CDN -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .container {
+      width: 90%;
+      margin: auto;
+    }
+
+    h5 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      gap: 15px;
+      padding: 10px 0;
+    }
+
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .carousel img {
+      height: 240px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+
+    .carousel img:hover {
+      transform: scale(1.05);
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 5px 10px;
+      z-index: 999;
+    }
+
+    .carousel-btn.left {
+      left: 0;
+    }
+
+    .carousel-btn.right {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <section class="bg-black text-white py-3">
+    <div class="container">
+      <h5>Comédia</h5>
+      <div class="carousel-wrapper">
+        <button class="carousel-btn left" onclick="scrollCarousel('carouselComedia', -1)">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <div class="carousel" id="carouselComedia">
+          <img src="irma.webp" alt="Acompanhante Perfeita">
+          <img src="evidencias.jpg" alt="A Hora do Mal">
+          <img src="fim.png" alt="Infestação">
+          <img src="prada.jpg" alt="Juntos">
+          <img src="abestalhados.jpg" alt="O Ritual">
+          <img src="volta.jpg" alt="Premonição 6">
+          <img src="pacote.jpg" alt="A Primeira Profecia">
+          <img src="millers.jpg" alt="Scream 6">
+          <img src="vidente.jpeg" alt="A Semente do Mal">
+        </div>
+        <button class="carousel-btn right" onclick="scrollCarousel('carouselComedia', 1)">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black text-white py-3">
+    <div class="container">
+      <h5>Terror</h5>
+      <div class="carousel-wrapper">
+        <button class="carousel-btn left" onclick="scrollCarousel('carouselTerror', -1)">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <div class="carousel" id="carouselTerror">
+          <img src="acompanhante-perfeita.jpg" alt="Acompanhante Perfeita">
+          <img src="a-hora-do-mal.jpg" alt="A Hora do Mal">
+          <img src="infestacao.jpg" alt="Infestação">
+          <img src="juntos.png" alt="Juntos">
+          <img src="o-ritual.jpg" alt="O Ritual">
+          <img src="premonicao6.jpg" alt="Premonição 6">
+          <img src="primeira-profecia.jpg" alt="A Primeira Profecia">
+          <img src="scream6.jpg" alt="Scream 6">
+          <img src="semente-do-mal.jpg" alt="A Semente do Mal">
+        </div>
+        <button class="carousel-btn right" onclick="scrollCarousel('carouselTerror', 1)">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  function scrollCarousel(id, direction) {
+    const carousel = document.getElementById(id);
+    const scrollAmount = 300 * direction; // 1 para frente, -1 para trás
+    carousel.scrollLeft += scrollAmount;
+  }
+</script>
+
+</body>
+</html>
